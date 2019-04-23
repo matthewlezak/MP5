@@ -6,14 +6,18 @@ import android.graphics.Canvas;
 public class CharacterSprite {
 
     private Bitmap image;
+    public int x,y;
 
     public CharacterSprite(Bitmap bmp) {
+        x = 500;
+        y = 500;
         image = bmp;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, 100, 100, null);
+        canvas.drawBitmap(image, x, y, null);
     }
     public void update() {
+        x++;
     }
 }
