@@ -35,6 +35,20 @@ public class rectObstacle {
         return this.bottom;
     }
 
+    //set methods to be used in hitBox drawing
+    public void setRight(int input) {
+        this.right = input;
+    }
+    public void setLeft(int input) {
+        this.left = input;
+    }
+    public void setTop(int input) {
+        this.top = input;
+    }
+    public void setBottom(int input) {
+        this.bottom = input;
+    }
+
     public void draw(Canvas canvas) {
         myPaint.setColor(Color.RED);
         canvas.drawRect(new Rect(left, top, right, bottom),myPaint);

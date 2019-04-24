@@ -23,9 +23,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
 
-    private boolean animationBegin = false;
-
-    private int trackJump = 500;
 
     //this is a rough draft of the hitBox. (It will eventually need to be updated onTouchEvent)
 
@@ -35,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     //need to grab the immediate characterSprite and allow it to jump in order to increase responsiveness
     public boolean onTouchEvent(MotionEvent e) {
-        animationBegin = true;
+        characterSpriteList[0].setAnimationBegin(true);
         return true;
     }
 
@@ -82,25 +79,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    //on touch event method here
-
     public void update() {
-        //maintain position change for jump animation
-        if (trackJump == 500) {
-            animationBegin = false;
+        if (characterSpriteList[0].getAnimationBegin()) {
+            characterSpriteList[0].jump();
         }
+        //maintain position change for jump animation
+
         //maintain the variable trackSpriteChange on every update in order to draw the approprite sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
             trackSpriteChange = 0;
         }
-        for (CharacterSprite sprite : characterSpriteList) {
-            sprite.update();
-        }
+
         rectOb.update();
         //collision detection
-        if (hitBox.getTop() > rectOb.getTop()) {
+        if (hitBox.getBottom() > rectOb.getTop() && hitBox.getLeft() < rectOb.getRight() && hitBox.getTop() < rectOb.getBottom()) {
             hitBox.runCollision();
         }
     }
@@ -111,23 +105,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         myPaint.setColor(Color.WHITE);
         if (canvas != null) {
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
-            canvas.drawLine(650, -1000, 450, 10000, myPaint);
-            hitBox.draw(canvas);
+            canvas.drawLine(650, -1000, 650, 10000, myPaint);
+            //hitBox.draw(canvas);
             rectOb.draw(canvas);
             //draw the sprite animations based the trackSpriteChange variable in the update method.
-            if (animationBegin) {
-                characterSpriteList[0]
-            }
-            if (trackSpriteChange <= 3) {
+            if (characterSpriteList[0].getAnimationBegin()) {
                 characterSpriteList[0].draw(canvas);
-            } else if (trackSpriteChange <= 6) {
-                characterSpriteList[1].draw(canvas);
-            } else if (trackSpriteChange <= 9) {
-                characterSpriteList[2].draw(canvas);
-            } else if (trackSpriteChange <= 12){
-                characterSpriteList[3].draw(canvas);
             } else {
-                characterSpriteList[4].draw(canvas);
+                hitBox.draw(canvas);
+                if (trackSpriteChange <= 3) {
+                    characterSpriteList[0].draw(canvas);
+                } else if (trackSpriteChange <= 6) {
+                    characterSpriteList[1].draw(canvas);
+                } else if (trackSpriteChange <= 9) {
+                    characterSpriteList[2].draw(canvas);
+                } else if (trackSpriteChange <= 12) {
+                    characterSpriteList[3].draw(canvas);
+                } else {
+                    characterSpriteList[4].draw(canvas);
+                }
             }
         }
     }

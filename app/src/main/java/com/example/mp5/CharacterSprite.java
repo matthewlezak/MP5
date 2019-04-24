@@ -6,7 +6,7 @@ public class CharacterSprite {
 
     private Bitmap image;
     public int x,y;
-    private int jumpTrack = 0;
+
 
     public void setX(int input) {
         x = input;
@@ -16,9 +16,9 @@ public class CharacterSprite {
         y = input;
     }
 
-    public void trackingJump() {
-        jumpTrack++;
-    }
+    private boolean animationBegin = false;
+
+    private int alongSideTrack = 500;
 
 
     public CharacterSprite(Bitmap bmp) {
@@ -30,15 +30,26 @@ public class CharacterSprite {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, x, y, null);
     }
-    public void update() {
-    }
+
+    //jump method to be called after player touches screen
     public void jump() {
-        for (int i = x; i < 700; i++) {
-            if (x < 600) {
-                x++;
-            } else {
-                x--;
-            }
+        if (alongSideTrack == 900) {
+            animationBegin = false;
+            alongSideTrack = 500;
+        } else if (alongSideTrack < 700) {
+            alongSideTrack += 10;
+            x += 10;
+        } else if (alongSideTrack >= 700) {
+            alongSideTrack += 10;
+            x -= 10;
         }
+    }
+
+    public boolean getAnimationBegin() {
+        return this.animationBegin;
+    }
+
+    public void setAnimationBegin(boolean value) {
+        this.animationBegin = value;
     }
 }
