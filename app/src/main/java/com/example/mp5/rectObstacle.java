@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 public class rectObstacle {
     private Paint myPaint = new Paint();
+    //This class is mostly going to be used to create Obstacle Objects. Therefore set the default values to the dimensions of the obstacle rectangles.
     private int bottom = 2250;
     private int top = 2000;
     private int left = 550;
@@ -20,7 +21,7 @@ public class rectObstacle {
         this.right = rightSet;
         this.bottom = bottomSet;
     }
-
+    //get methods to be used in collision detection
     public int getRight() {
         return this.right;
     }
@@ -33,6 +34,7 @@ public class rectObstacle {
     public int getBottom() {
         return this.bottom;
     }
+
     public void draw(Canvas canvas) {
         myPaint.setColor(Color.RED);
         canvas.drawRect(new Rect(left, top, right, bottom),myPaint);
@@ -41,7 +43,8 @@ public class rectObstacle {
         bottom -= 30;
         top -=30;
     }
-    public void runParty() {
+    //method to be run on collision.
+    public void runCollision() {
         this.top = 2;
     }
 }

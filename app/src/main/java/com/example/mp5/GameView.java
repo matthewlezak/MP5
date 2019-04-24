@@ -7,13 +7,15 @@ import android.content.*;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Color;
-//fdsafdsa
-//fdsaafdsa
+import android.view.MotionEvent;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private int trackSpriteChange = 0;
 
     private Paint myPaint = new Paint();
+
+    //moving obstacle initialization. (Eventually more than one will need to be drawn to the screen)
 
     private rectObstacle rectOb = new rectObstacle();
 
@@ -21,8 +23,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
 
-    private rectObstacle hitbox = new rectObstacle(625,750,775,800);
+    private boolean animationBegin = false;
 
+    private int trackJump = 500;
+
+    //this is a rough draft of the hitBox. (It will eventually need to be updated onTouchEvent)
+
+    private rectObstacle hitBox = new rectObstacle(625,750,775,800);
+
+
+    @Override
+    //need to grab the immediate characterSprite and allow it to jump in order to increase responsiveness
+    public boolean onTouchEvent(MotionEvent e) {
+        animationBegin = true;
+        return true;
+    }
 
 
     public GameView(Context context) {
@@ -41,12 +56,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        //create references to objects holding the images of the character sprite animations
         characterSpriteList[0] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_1));
         characterSpriteList[1] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_2));
         characterSpriteList[2] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_3_1));
         characterSpriteList[3] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_4_3));
         characterSpriteList[4] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_5_3));
-        //characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.makingmoney));
         thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
@@ -70,6 +85,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     //on touch event method here
 
     public void update() {
+        //maintain position change for jump animation
+        if (trackJump == 500) {
+            animationBegin = false;
+        }
+        //maintain the variable trackSpriteChange on every update in order to draw the approprite sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
@@ -79,8 +99,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             sprite.update();
         }
         rectOb.update();
-        if (hitbox.getTop() > rectOb.getTop()) {
-            hitbox.runParty();
+        //collision detection
+        if (hitBox.getTop() > rectOb.getTop()) {
+            hitBox.runCollision();
         }
     }
 
@@ -88,10 +109,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         myPaint.setColor(Color.WHITE);
-        canvas.drawLine(650, -1000, 450, 10000, myPaint);
         if (canvas != null) {
-            hitbox.draw(canvas);
+            //draw the ground, the hitbox, and any moving obstacles to the canvas.
+            canvas.drawLine(650, -1000, 450, 10000, myPaint);
+            hitBox.draw(canvas);
             rectOb.draw(canvas);
+            //draw the sprite animations based the trackSpriteChange variable in the update method.
+            if (animationBegin) {
+                characterSpriteList[0]
+            }
             if (trackSpriteChange <= 3) {
                 characterSpriteList[0].draw(canvas);
             } else if (trackSpriteChange <= 6) {
