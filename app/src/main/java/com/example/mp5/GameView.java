@@ -5,16 +5,25 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.content.*;
 import android.graphics.Canvas;
-
-//tools:context=".GameView">
-
+import android.graphics.Paint;
+import android.graphics.Color;
+//fdsafdsa
+//fdsaafdsa
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private int trackSpriteChange = 0;
 
+    private Paint myPaint = new Paint();
+
+    private rectObstacle rectOb = new rectObstacle();
+
     private MainThread thread;
 
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
+
+    private rectObstacle hitbox = new rectObstacle(625,750,775,800);
+
+
 
     public GameView(Context context) {
         super(context);
@@ -32,12 +41,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        characterSpriteList[0] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.sprite_1));
-        characterSpriteList[1] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.sprite_2));
-        characterSpriteList[2] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.sprite_3));
-        characterSpriteList[3] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.sprite_4_1));
-        characterSpriteList[4] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.sprite_5));
-        characterSpriteList[3].y += 5;
+        characterSpriteList[0] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_1));
+        characterSpriteList[1] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_2));
+        characterSpriteList[2] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_3_1));
+        characterSpriteList[3] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_4_3));
+        characterSpriteList[4] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_5_3));
         //characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.makingmoney));
         thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
@@ -62,7 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     //on touch event method here
 
     public void update() {
-        if (trackSpriteChange <= 60/4) {
+        if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
             trackSpriteChange = 0;
@@ -70,20 +78,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for (CharacterSprite sprite : characterSpriteList) {
             sprite.update();
         }
+        rectOb.update();
+        if (hitbox.getTop() > rectOb.getTop()) {
+            hitbox.runParty();
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        myPaint.setColor(Color.WHITE);
+        canvas.drawLine(650, -1000, 450, 10000, myPaint);
         if (canvas != null) {
-            if (trackSpriteChange <= 15/4) {
+            hitbox.draw(canvas);
+            rectOb.draw(canvas);
+            if (trackSpriteChange <= 3) {
                 characterSpriteList[0].draw(canvas);
-            } else if (trackSpriteChange <= 30/4) {
+            } else if (trackSpriteChange <= 6) {
                 characterSpriteList[1].draw(canvas);
-            } else if (trackSpriteChange <= 45/4) {
+            } else if (trackSpriteChange <= 9) {
                 characterSpriteList[2].draw(canvas);
-            } else {
+            } else if (trackSpriteChange <= 12){
                 characterSpriteList[3].draw(canvas);
+            } else {
+                characterSpriteList[4].draw(canvas);
             }
         }
     }
