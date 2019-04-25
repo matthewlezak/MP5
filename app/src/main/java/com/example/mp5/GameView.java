@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     //this is a rough draft of the hitBox. (It will eventually need to be updated onTouchEvent)
 
-    private rectObstacle hitBox = new rectObstacle(625,750,775,800);
+    //private rectObstacle hitBox = new rectObstacle(625,750,775,800);
 
 
     @Override
@@ -79,9 +79,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+
+
     public void update() {
         if (characterSpriteList[0].getAnimationBegin()) {
             characterSpriteList[0].jump();
+            //characterSpriteList[0].jump();
         }
         //maintain position change for jump animation
 
@@ -94,8 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         rectOb.update();
         //collision detection
-        if (hitBox.getBottom() > rectOb.getTop() && hitBox.getLeft() < rectOb.getRight() && hitBox.getTop() < rectOb.getBottom()) {
-            hitBox.runCollision();
+        if (CharacterSprite.getHitBox().getBottom() > rectOb.getTop() && CharacterSprite.getHitBox().getLeft() < rectOb.getRight() && CharacterSprite.getHitBox().getTop() < rectOb.getBottom()) {
+            CharacterSprite.getHitBox().runCollision();
         }
     }
 
@@ -104,6 +107,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         myPaint.setColor(Color.WHITE);
         if (canvas != null) {
+            CharacterSprite.getHitBox().draw(canvas);
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
             canvas.drawLine(650, -1000, 650, 10000, myPaint);
             //hitBox.draw(canvas);
@@ -112,7 +116,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (characterSpriteList[0].getAnimationBegin()) {
                 characterSpriteList[0].draw(canvas);
             } else {
-                hitBox.draw(canvas);
+                CharacterSprite.getHitBox().draw(canvas);
                 if (trackSpriteChange <= 3) {
                     characterSpriteList[0].draw(canvas);
                 } else if (trackSpriteChange <= 6) {

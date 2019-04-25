@@ -8,8 +8,8 @@ import android.graphics.Rect;
 public class rectObstacle {
     private Paint myPaint = new Paint();
     //This class is mostly going to be used to create Obstacle Objects. Therefore set the default values to the dimensions of the obstacle rectangles.
-    private int bottom = 2250;
-    private int top = 2000;
+    private int bottom = 2750;
+    private int top = 2500;
     private int left = 550;
     private int right = 900;
     rectObstacle() {
@@ -49,13 +49,25 @@ public class rectObstacle {
         this.bottom = input;
     }
 
+    public void reset() {
+        this.top = 2500;
+        this.bottom = 2750;
+    }
+
     public void draw(Canvas canvas) {
         myPaint.setColor(Color.RED);
         canvas.drawRect(new Rect(left, top, right, bottom),myPaint);
     }
     public void update() {
+        if (this.bottom < 0) {
+            reset();
+        }
         bottom -= 30;
         top -=30;
+    }
+    public void moveHitbox(int input) {
+        this.left += input;
+        this.right += input;
     }
     //method to be run on collision.
     public void runCollision() {
