@@ -1,5 +1,6 @@
 package com.example.mp5;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
@@ -22,6 +23,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
+
+    public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
+
 
 
     //this is a rough draft of the hitBox. (It will eventually need to be updated onTouchEvent)
@@ -116,6 +120,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.BLUE);
         myPaint.setColor(Color.WHITE);
         if (canvas != null) {
+            canvas.drawBitmap(b, 0,0 , null);
             CharacterSprite.getHitBox().draw(canvas);
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
             canvas.drawLine(650, -1000, 650, 10000, myPaint);

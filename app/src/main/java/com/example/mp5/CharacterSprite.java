@@ -1,13 +1,14 @@
 package com.example.mp5;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import java.util.Map;
 import java.util.HashMap;
 public class CharacterSprite {
 
 
-//gkykyugkuyfyukljhkjlkhjlhlkjkljlkjijkljkkjjljkklhhllkjjlkjljljjhljjhkjhlhkjhfdsaa
+//gkykyugkuyfyukljhkjlkhjlhlkjkljlkjijkljkkjjljkklhhllkjjlkjljljjhljjhkjhlhkjhfdsaalkjlkjlkjlkjlkkjjlhnkjhkjhkjhkjhkjhkjhkjkjhkhjkhjkhkjhlklhluihhjhlkjh
     private Bitmap image;
     public double x,y;
 
@@ -74,6 +75,7 @@ public class CharacterSprite {
         x += amountToDraw;
         hitBox.moveHitbox(amountToDraw);
         previousDisplacementFromZero = displacementFromZero;
+
         /*
         //a mess lies below
         if (alongSideTrack >= 1400) {
