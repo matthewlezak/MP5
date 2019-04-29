@@ -28,10 +28,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     //private rectObstacle hitBox = new rectObstacle(625,750,775,800);
 
+    private static long secondConversion = 1_000_000_000L;
+
+    private static long beginJumpTime = 0L;
 
     @Override
-    //need to grab the immediate characterSprite and allow it to jump in order to increase responsiveness
     public boolean onTouchEvent(MotionEvent e) {
+        if (characterSpriteList[0].getAnimationBegin() == false) {
+            beginJumpTime = System.nanoTime() / secondConversion;
+        }
         characterSpriteList[0].setAnimationBegin(true);
         return true;
     }
@@ -62,7 +67,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
+        int shouldSwitch = 0;
+        for (int i = 1; i < CharacterSprite.getSectionAmount() + 1; i++) {
 
+        }
     }
 
     @Override
@@ -80,8 +88,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-
     public void update() {
+        System.out.println(beginJumpTime);
         if (characterSpriteList[0].getAnimationBegin()) {
             characterSpriteList[0].jump();
             //characterSpriteList[0].jump();
@@ -105,6 +113,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        canvas.drawColor(Color.BLUE);
         myPaint.setColor(Color.WHITE);
         if (canvas != null) {
             CharacterSprite.getHitBox().draw(canvas);
@@ -130,5 +139,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+    }
+    public static long getBeginJumpTime() {
+        return beginJumpTime;
+    }
+
+    public static long getSecondConversion() {
+        return secondConversion;
     }
 }
