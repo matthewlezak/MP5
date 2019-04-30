@@ -5,12 +5,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public class CharacterSprite {
 
 
-//gkykyugkuyfyukljhkjlkhjlhlkjkljlkjijkljkkjjljkklhhllkjjlkjljljjhljjhkjhlhkjhfdsaalkjlkjlkjlkjlkkjjlhnkjhkjhkjhkjhkjhkjhkjkjhkhjkhjkhkjhlklhluihhjhlkjh
     private Bitmap image;
-    public double x,y;
+    public static int x,y;
 
 
     private float previousDisplacementFromZero;
@@ -19,9 +22,9 @@ public class CharacterSprite {
         x = input;
     }
 
-    public void setY(int input) {
-        y = input;
-    }
+    public static int getX() {return x;}
+
+    public void setY(int input) {y = input;}
 
     private boolean animationBegin = false;
 
@@ -33,13 +36,11 @@ public class CharacterSprite {
 
     private static double iterationAmount = 2.5;
 
-    private static double beginVelocity = 30;
+    private static double beginVelocity = 400;
 
-    private static rectObstacle hitBox = new rectObstacle(625,750,775,800);
+    private static rectObstacle hitBox = new rectObstacle(625,750,775,800, 0);
 
-    private int velocity =  30;
 
-    private double gravity = -2;
     public CharacterSprite(Bitmap bmp) {
         x = 500;
         y = 500;
@@ -61,77 +62,25 @@ public class CharacterSprite {
     public static double getBeginVelocity() {
         return beginVelocity;
     }
+
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, (int) x, (int) y, null);
     }
 
-    boolean jumping = false;
 
     //jump method to be called after player touches screen
     public void jump() {
-        long timeDifference = (System.nanoTime() / GameView.getSecondConversion()) - GameView.getBeginJumpTime();
-        float displacementFromZero = (float) (((velocity * timeDifference) + (0.5 * gravity * (Math.pow(timeDifference, 2)))));
-        float amountToDraw = (displacementFromZero - previousDisplacementFromZero);
-        x += amountToDraw;
-        hitBox.moveHitbox(amountToDraw);
-        previousDisplacementFromZero = displacementFromZero;
-
-        /*
-        //a mess lies below
-        if (alongSideTrack >= 1400) {
+        x += 1.7 * GameView.getJumpStrength();
+        hitBox.setLeft((float) (hitBox.getLeft() + 1.7 * GameView.getJumpStrength()));
+        hitBox.setRight((float) (hitBox.getRight() + 1.7 * GameView.getJumpStrength()));
+        if (x <= 500) {
             animationBegin = false;
-            alongSideTrack = 500;
+            hitBox.setLeft(625);
+            hitBox.setRight(775);
+            GameView.setJumpStrength(0);
             x = 500;
-            if (hitBox.getTop() != 2) {
-                hitBox.setTop(750);
-                hitBox.setBottom(800);
-                hitBox.setLeft(625);
-                hitBox.setRight(775);
-            } else {
-                hitBox.setBottom(800);
-                hitBox.setLeft(625);
-                hitBox.setRight(775);
-            }
-
-        } else if (alongSideTrack < 612.5) {
-            alongSideTrack += 25;
-            x += 25;
-            hitBox.moveHitbox(25);
-        } else if (alongSideTrack < 725) {
-            alongSideTrack += 20;
-            x += 20;
-            hitBox.moveHitbox(20);
-        } else if (alongSideTrack < 837.5) {
-            alongSideTrack += 15;
-            x += 15;
-            hitBox.moveHitbox(15);
-        } else if (alongSideTrack < 950) {
-            alongSideTrack += 10;
-            x += 10;
-            hitBox.moveHitbox(10);
-        } else if (alongSideTrack >= 1287.5) {
-            alongSideTrack += 25;
-            x -= 25;
-            hitBox.moveHitbox(-25);
-        } else if (alongSideTrack >= 1175) {
-            alongSideTrack += 20;
-            x -= 20;
-            hitBox.moveHitbox(-20);
-        } else  if (alongSideTrack >= 1062.5) {
-            alongSideTrack += 15;
-            x -= 15;
-            hitBox.moveHitbox(-15);
-        } else if (alongSideTrack >= 950) {
-            alongSideTrack += 10;
-            x -= 10;
-            hitBox.moveHitbox(-10);
         }
-        */
-
-
     }
-
-
 
     public boolean getAnimationBegin() {
         return this.animationBegin;

@@ -12,14 +12,17 @@ public class rectObstacle {
     private int top = 2500;
     private float left = 550;
     private float right = 900;
-    rectObstacle() {
-    }
+    private int color = -65536;
 
-    rectObstacle(float leftSet, int topSet, float rightSet, int bottomSet) {
+    rectObstacle() {}
+
+
+    rectObstacle(float leftSet, int topSet, float rightSet, int bottomSet, int setColor) {
         this.left = leftSet;
         this.top = topSet;
         this.right = rightSet;
         this.bottom = bottomSet;
+        color = setColor;
     }
     //get methods to be used in collision detection
     public float getRight() {
@@ -56,7 +59,7 @@ public class rectObstacle {
     }
 
     public void draw(Canvas canvas) {
-        myPaint.setColor(Color.RED);
+        myPaint.setColor(color);
         canvas.drawRect(new RectF(left, top, right, bottom),myPaint);
     }
     public void update() {
@@ -74,4 +77,7 @@ public class rectObstacle {
     public void runCollision() {
         this.top = 2;
     }
+
+    public void setColor(int setColor) {color = setColor;}
+
 }

@@ -36,8 +36,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static long beginJumpTime = 0L;
 
+    private static float jumpStrength = 0, weight = 1;
+
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        if (CharacterSprite.getX() == 500) {
+            jumpStrength = 24;
+        }
         if (characterSpriteList[0].getAnimationBegin() == false) {
             beginJumpTime = System.nanoTime() / secondConversion;
         }
@@ -96,11 +102,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         System.out.println(beginJumpTime);
         if (characterSpriteList[0].getAnimationBegin()) {
             characterSpriteList[0].jump();
-            //characterSpriteList[0].jump();
         }
         //maintain position change for jump animation
 
-        //maintain the variable trackSpriteChange on every update in order to draw the approprite sprite to the screen
+        //maintain the variable trackSpriteChange on every update in order to draw the appropriate sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
@@ -112,6 +117,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (CharacterSprite.getHitBox().getBottom() > rectOb.getTop() && CharacterSprite.getHitBox().getLeft() < rectOb.getRight() && CharacterSprite.getHitBox().getTop() < rectOb.getBottom()) {
             CharacterSprite.getHitBox().runCollision();
         }
+
+        jumpStrength -= weight;
+
     }
 
     @Override
@@ -152,4 +160,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public static long getSecondConversion() {
         return secondConversion;
     }
+
+    public static float getJumpStrength() {return jumpStrength;}
+
+    public static void setJumpStrength(float setJumpStrength) {
+        jumpStrength = setJumpStrength;
+    }
+
 }
