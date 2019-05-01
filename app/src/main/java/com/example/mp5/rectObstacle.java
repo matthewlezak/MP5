@@ -4,15 +4,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class rectObstacle {
+    private Random leftOrRight = new Random();
     private Paint myPaint = new Paint();
-    //This class is mostly going to be used to create Obstacle Objects. Therefore set the default values to the dimensions of the obstacle rectangles.
+    //This class is mostly going to be used to create Obstacle Objects. Theregffdsafdsajgfgfhfghjgjhhjkhore set the default values to the dimensions of the obstacle rectangles.
     private int bottom = 2750;
     private int top = 2500;
     private float left = 550;
     private float right = 900;
     private int color = -65536;
+    private int controlling = 0;
 
     rectObstacle() {}
 
@@ -53,6 +57,13 @@ public class rectObstacle {
         this.bottom = input;
     }
 
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
+    }
+
     public void reset() {
         this.top = 2500;
         this.bottom = 2750;
@@ -60,9 +71,24 @@ public class rectObstacle {
         this.right = 900;
     }
 
-    public void Offset () {
-        this.top = 2850;
-        this.bottom = 3100;
+
+    public void Offset (int input) {
+        controlling++;
+        if (leftOrRight.nextBoolean()) {
+            this.top = input + 350;
+            this.bottom = this.top + 250;
+        } else if (controlling == 2) {
+            this.top = randInt(input + 300, input + 1200);
+            this.bottom = this.top + 250;
+            controlling = 0;
+        } else {
+            this.top = input + 1150;
+            this.bottom = this.top + 250;
+        }
+        /*
+        this.top = randInt(input + 300, input + 1200);
+        this.bottom = this.top + 250;
+        */
     }
 
     public void draw(Canvas canvas) {

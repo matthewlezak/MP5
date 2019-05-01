@@ -21,7 +21,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint textPaint = new Paint();
 
-    //moving obstacle initialization. (Eventually njnjkjkjkkjjkmore than one will need to be drawn t;l;lk;;lk;lokpklkijk,juhjhjo the screen)uyhkjhkjh
+    //moving obstacle initiamhkjlization. (Eventually njnfdsafdsjkjknkhjklhlhlhgkhgkhhgjhghkgjkgjkkjjkmofdsaffdre than one will need to be drawn t;l;lk;;lk;lokpklkijk,juhjhjo the screen)uyhkjhkjh
 
     private rectObstacle rectOb = new rectObstacle();
 
@@ -100,7 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         characterSpriteList[3] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_4_3));
         characterSpriteList[4] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_5_3));
         thread = new MainThread(getHolder(), this);
-        testing.Offset();
+        testing.Offset(rectOb.getBottom() + 400);
         thread.setRunning(true);
         thread.start();
         int shouldSwitch = 0;
@@ -125,13 +125,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
+        System.out.println(rectOb.getTop());
         /*
         if (counter < 30) {
             counter++;
         }
         */
         if (!isDead) {
-            if (rectOb.getBottom() < 10) {
+            if (rectOb.getBottom() < 0) {
                 score += 1;
             }
         }
@@ -141,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         //maintain position change for jump animation
 
-        //maintain the variable trackSpriteChange on kljjkevery ukjhjjkpjhgjhgjhdate in ordekjhkjr to draw the appropriate sprite to the screen
+        //maintain the variable trackSpriteChange on kljjkevery ukjhjjhjjklkhjkhjkkjhljjkhgkgkjghkpjhgjhgjhdate in ordekjhkjr to draw the appropriate sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
@@ -150,8 +151,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         rectOb.update();
         testing.setBottom(testing.getBottom() - 30);
         testing.setTop(testing.getTop() - 30);
-        if (testing.getTop() < 0) {
-            testing.Offset();
+        if (rectOb.getBottom() < 2600 && rectOb.getBottom() > 2500 && testing.getBottom() < 0) {
+            testing.Offset(rectOb.getBottom() + 400);
         }
         //collision detection
         if (CharacterSprite.getHitBox().getBottom() > rectOb.getTop() && CharacterSprite.getHitBox().getLeft() < rectOb.getRight() && CharacterSprite.getHitBox().getTop() < rectOb.getBottom()) {
@@ -160,6 +161,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             isDead = false;
             //CharacterSprite.getHitBox().runCollision();
         }
+        if (CharacterSprite.getHitBox().getBottom() > testing.getTop() && CharacterSprite.getHitBox().getLeft() < testing.getRight() && CharacterSprite.getHitBox().getTop() < testing.getBottom()) {
+            isDead = true;
+            context.startActivity(i);
+            isDead = false;
+            //CharacterSprite.getHitBox().runCollision();
+        }
+
 
         jumpStrength -= weight;
 
@@ -171,16 +179,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.BLUE);
         myPaint.setColor(Color.WHITE);
         if (canvas != null) {
-            canvas.drawBitmap(b, 0,0 , null);
+            //canvas.drawBitmap(b, 0,0 , null);
             CharacterSprite.getHitBox().draw(canvas);
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
             canvas.drawLine(650, -1000, 650, 10000, myPaint);
             //hitBox.draw(canvas);
+            //testing.setColor(-16776961);
             testing.draw(canvas);
             rectOb.draw(canvas);
-            textPaint.setColor(Color.WHITE);
+            textPaint.setColor(Color.BLUE);
             textPaint.setTextSize(100);
-            canvas.drawText(Integer.toString(score), 800, 800, textPaint);
+            canvas.drawText(Integer.toString(score), 1200, 200, textPaint);
             //draw the sprite animations based the trackSpriteChange variable in the update method.
             if (characterSpriteList[0].getAnimationBegin()) {
                 characterSpriteList[0].draw(canvas);
