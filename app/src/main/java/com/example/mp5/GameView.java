@@ -24,7 +24,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
 
-    public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
+    public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.spacepixelated);
 
 
 

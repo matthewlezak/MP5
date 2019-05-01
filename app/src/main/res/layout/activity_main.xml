@@ -4,5 +4,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mp5.MainActivity"
-    android:name=".MainActivity" android:screenOrientation="landscape"/>
+    tools:context="com.example.mp5.MainActivity"/>
