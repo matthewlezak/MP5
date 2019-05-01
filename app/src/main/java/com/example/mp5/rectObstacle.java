@@ -56,6 +56,15 @@ public class rectObstacle {
     public void reset() {
         this.top = 2500;
         this.bottom = 2750;
+        this.left = 550;
+        this.right = 900;
+    }
+
+    public void vanish () {
+        this.top = 0;
+        this.left = 0;
+        this.bottom = 0;
+        this.right = 0;
     }
 
     public void draw(Canvas canvas) {
@@ -75,7 +84,6 @@ public class rectObstacle {
     }
     //method to be run on collision.
     public void runCollision() {
-        this.top = 2;
     }
 
     public void setColor(int setColor) {color = setColor;}

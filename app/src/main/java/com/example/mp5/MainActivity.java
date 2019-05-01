@@ -1,6 +1,7 @@
 package com.example.mp5;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,5 +15,6 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //setContentView(R.layout.activity_main);
         setContentView(new GameView(this));
+
     }
 }

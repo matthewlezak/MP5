@@ -9,22 +9,36 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Color;
 import android.view.MotionEvent;
+import android.content.Intent;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private int trackSpriteChange = 0;
 
+    private int score = 0;
+
     private Paint myPaint = new Paint();
 
-    //moving obstacle initialization. (Eventually more than one will need to be drawn to the screen)
+    private Paint textPaint = new Paint();
 
-    private rectObstacle rectOb = new rectObstacle();
+    //moving obstacle initialization. (Eventually njnjkjkjkkjjkmore than one will need to be drawn t;l;lk;;lk;lokpklkijk,juhjhjo the screen)uyhkjhkjh
+
+    private rectObstacle[] rectOb = new rectObstacle[2];
 
     private MainThread thread;
 
+    private int counter = 30;
+
     private CharacterSprite[] characterSpriteList = new CharacterSprite[5];
 
+    private static boolean isDead = false;
+
     public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.spacepixelated);
+
+    private Context context = getContext();
+
+    private Intent i = new Intent(context, Main2Activity.class);
+
 
 
 
@@ -38,15 +52,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static float jumpStrength = 0, weight = 1;
 
+    public static boolean getIsDead() {
+        return isDead;
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (CharacterSprite.getX() == 500) {
             jumpStrength = 24;
         }
-        if (characterSpriteList[0].getAnimationBegin() == false) {
-            beginJumpTime = System.nanoTime() / secondConversion;
+        /*
+        if (isDead) {
+            counter = 0;
+            isDead = false;
+        } else if (counter == 30) {
+            characterSpriteList[0].setAnimationBegin(true);
         }
+        */
         characterSpriteList[0].setAnimationBegin(true);
         return true;
     }
@@ -99,23 +122,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
+        /*
+        if (counter < 30) {
+            counter++;
+        }
+        */
+        if (!isDead) {
+            for (rectObstacle item : rectOb)
+            if (item.getBottom() < 10) {
+                score += 1;
+            }
+        }
         System.out.println(beginJumpTime);
         if (characterSpriteList[0].getAnimationBegin()) {
             characterSpriteList[0].jump();
         }
         //maintain position change for jump animation
 
-        //maintain the variable trackSpriteChange on every update in order to draw the appropriate sprite to the screen
+        //maintain the variable trackSpriteChange on kljjkevery ukjhjjkpjhgjhgjhdate in ordekjhkjr to draw the appropriate sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
             trackSpriteChange = 0;
         }
-
         rectOb.update();
         //collision detection
         if (CharacterSprite.getHitBox().getBottom() > rectOb.getTop() && CharacterSprite.getHitBox().getLeft() < rectOb.getRight() && CharacterSprite.getHitBox().getTop() < rectOb.getBottom()) {
-            CharacterSprite.getHitBox().runCollision();
+            isDead = true;
+            context.startActivity(i);
+            isDead = false;
+            //CharacterSprite.getHitBox().runCollision();
         }
 
         jumpStrength -= weight;
@@ -134,6 +170,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawLine(650, -1000, 650, 10000, myPaint);
             //hitBox.draw(canvas);
             rectOb.draw(canvas);
+            textPaint.setColor(Color.WHITE);
+            textPaint.setTextSize(100);
+            canvas.drawText(Integer.toString(score), 800, 800, textPaint);
             //draw the sprite animations based the trackSpriteChange variable in the update method.
             if (characterSpriteList[0].getAnimationBegin()) {
                 characterSpriteList[0].draw(canvas);

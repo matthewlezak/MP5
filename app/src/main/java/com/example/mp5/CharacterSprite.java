@@ -22,6 +22,10 @@ public class CharacterSprite {
 
     public static int getX() {return x;}
 
+    public static int getY() {
+        return y;
+    }
+
     public void setY(int input) {y = input;}
 
     private boolean animationBegin = false;
