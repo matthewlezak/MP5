@@ -23,7 +23,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     //moving obstacle initialization. (Eventually njnjkjkjkkjjkmore than one will need to be drawn t;l;lk;;lk;lokpklkijk,juhjhjo the screen)uyhkjhkjh
 
-    private rectObstacle[] rectOb = new rectObstacle[2];
+    private rectObstacle rectOb = new rectObstacle();
+
+    private rectObstacle testing = new rectObstacle();
 
     private MainThread thread;
 
@@ -98,6 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         characterSpriteList[3] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_4_3));
         characterSpriteList[4] = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.transparent_5_3));
         thread = new MainThread(getHolder(), this);
+        testing.Offset();
         thread.setRunning(true);
         thread.start();
         int shouldSwitch = 0;
@@ -128,8 +131,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         */
         if (!isDead) {
-            for (rectObstacle item : rectOb)
-            if (item.getBottom() < 10) {
+            if (rectOb.getBottom() < 10) {
                 score += 1;
             }
         }
@@ -146,6 +148,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             trackSpriteChange = 0;
         }
         rectOb.update();
+        testing.setBottom(testing.getBottom() - 30);
+        testing.setTop(testing.getTop() - 30);
+        if (testing.getTop() < 0) {
+            testing.Offset();
+        }
         //collision detection
         if (CharacterSprite.getHitBox().getBottom() > rectOb.getTop() && CharacterSprite.getHitBox().getLeft() < rectOb.getRight() && CharacterSprite.getHitBox().getTop() < rectOb.getBottom()) {
             isDead = true;
@@ -169,6 +176,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
             canvas.drawLine(650, -1000, 650, 10000, myPaint);
             //hitBox.draw(canvas);
+            testing.draw(canvas);
             rectOb.draw(canvas);
             textPaint.setColor(Color.WHITE);
             textPaint.setTextSize(100);

@@ -60,11 +60,9 @@ public class rectObstacle {
         this.right = 900;
     }
 
-    public void vanish () {
-        this.top = 0;
-        this.left = 0;
-        this.bottom = 0;
-        this.right = 0;
+    public void Offset () {
+        this.top = 2850;
+        this.bottom = 3100;
     }
 
     public void draw(Canvas canvas) {
