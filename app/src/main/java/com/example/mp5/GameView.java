@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -125,6 +126,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
+        System.out.println(MainActivity.getHighScore());
         System.out.println(rectOb.getTop());
         /*
         if (counter < 30) {
@@ -142,7 +144,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         //maintain position change for jump animation
 
-        //maintain the variable trackSpriteChange on kljjkevery ukjhjjhjjklkhjkhjkkjhljjkhgkgkjghkpjhgjhgjhdate in ordekjhkjr to draw the appropriate sprite to the screen
+        //maintain the variable trackSpriteChange on kljjkevery ukjhjjhfdsajjklkhjkhjkkjhljjkhgkgkjghkpjhgjhgjhdate in ordekjhkjr to draw the appropriate sprite to the screen
         if (trackSpriteChange <= 15) {
             trackSpriteChange++;
         } else {
@@ -163,6 +165,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         if (CharacterSprite.getHitBox().getBottom() > testing.getTop() && CharacterSprite.getHitBox().getLeft() < testing.getRight() && CharacterSprite.getHitBox().getTop() < testing.getBottom()) {
             isDead = true;
+            SharedPreferences storedScore = context.getSharedPreferences("fileScore", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = storedScore.edit();
+            editor.putInt("score", score);
+            editor.commit();
             context.startActivity(i);
             isDead = false;
             //CharacterSprite.getHitBox().runCollision();
@@ -216,6 +222,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public static long getSecondConversion() {
         return secondConversion;
     }
+
 
     public static float getJumpStrength() {return jumpStrength;}
 
