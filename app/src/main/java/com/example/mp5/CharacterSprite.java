@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class CharacterSprite {
