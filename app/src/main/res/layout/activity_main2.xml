@@ -7,7 +7,7 @@
     tools:context="com.example.mp5.Main2Activity"
     android:theme="@style/Theme.AppCompat.NoActionBar"
 
-    android:background="@drawable/spacebigpixelated">
+    android:background="@drawable/space2realpixelated">
 
     <Button
         android:id="@+id/play"
