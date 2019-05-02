@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main2Activity"
+    tools:context="com.example.mp5.Main2Activity"
     android:theme="@style/Theme.AppCompat.NoActionBar"
-    android:background="@drawable/spacepixelated_backup">
+
+    android:background="@drawable/spacepixelated">
 
     <Button
         android:id="@+id/play"

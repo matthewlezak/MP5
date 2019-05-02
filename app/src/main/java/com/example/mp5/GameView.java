@@ -126,8 +126,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update() {
+
         System.out.println(MainActivity.getHighScore());
-        System.out.println(rectOb.getTop());
+        System.out.println(testing.getBottom());
         /*
         if (counter < 30) {
             counter++;
@@ -193,7 +194,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             //testing.setColor(-16776961);
             testing.draw(canvas);
             rectOb.draw(canvas);
-            textPaint.setColor(Color.BLUE);
+            textPaint.setColor(Color.WHITE);
             textPaint.setTextSize(100);
             canvas.drawText(Integer.toString(score), 1200, 200, textPaint);
             //draw the sprite animations based the trackSpriteChange variable in the update method.
