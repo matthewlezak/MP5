@@ -22,6 +22,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint textPaint = new Paint();
 
+    private Paint backgroundTint = new Paint();
+
     //moving obstacle initiamhkjlization. (Eventually njnfdsafdsjkjknkhjklhlhlhgkhgkhhgjhghkgjkgjkkjjkmofdsaffdre than one will need to be drawn t;l;lk;;lk;lokpklkijk,juhjhjo the screen)uyhkjhkjh
 
     private rectObstacle rectOb = new rectObstacle();
@@ -36,7 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static boolean isDead = false;
 
-    public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.spacepixelated);
+    public Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.rainbowbackground);
 
     private Context context = getContext();
 
@@ -185,8 +187,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         canvas.drawColor(Color.BLUE);
         myPaint.setColor(Color.WHITE);
+        backgroundTint.setColor(Color.RED);
         if (canvas != null) {
-            //canvas.drawBitmap(b, 0,0 , null);
+            canvas.drawBitmap(b, 100,100, backgroundTint);
             CharacterSprite.getHitBox().draw(canvas);
             //draw the ground, the hitbox, and any moving obstacles to the canvas.
             canvas.drawLine(650, -1000, 650, 10000, myPaint);
